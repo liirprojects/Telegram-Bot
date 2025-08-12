@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Application", "TelegramBot.Application\TelegramBot.Application.csproj", "{68D3C757-34E6-4243-B800-8D9671EA252A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Presentation", "TelegramBot.Presentation\TelegramBot.Presentation.csproj", "{9EB0ECE0-5B4D-41DA-9BE5-D715DB8CA01A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Infrastructure", "TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj", "{35164E51-E981-4CB3-A472-87B7BB50AEAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +16,19 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68D3C757-34E6-4243-B800-8D9671EA252A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D3C757-34E6-4243-B800-8D9671EA252A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D3C757-34E6-4243-B800-8D9671EA252A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D3C757-34E6-4243-B800-8D9671EA252A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB0ECE0-5B4D-41DA-9BE5-D715DB8CA01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB0ECE0-5B4D-41DA-9BE5-D715DB8CA01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB0ECE0-5B4D-41DA-9BE5-D715DB8CA01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB0ECE0-5B4D-41DA-9BE5-D715DB8CA01A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35164E51-E981-4CB3-A472-87B7BB50AEAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35164E51-E981-4CB3-A472-87B7BB50AEAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35164E51-E981-4CB3-A472-87B7BB50AEAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35164E51-E981-4CB3-A472-87B7BB50AEAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

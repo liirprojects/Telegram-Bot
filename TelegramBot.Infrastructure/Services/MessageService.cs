@@ -9,14 +9,15 @@ namespace TelegramBot.Infrastructure.Services;
 
 public class MessageService : IMessageService
 {
-    private readonly ITelegramBotClient _telegramBotClient;
+    private readonly IEnumerable<ICommandHandler> _handlers;
+    private readonly IMessageSender _messageSender;
     private readonly ILogger<MessageService> _logger;
 
-    public MessageService(ITelegramBotClient telegramBotClient, ILogger<MessageService> logger)
+    public MessageService(IEnumerable<ICommandHandler> handlers, IMessageSender sender, ILogger<MessageService> logger)
     {
-        this._telegramBotClient = telegramBotClient;
+        _handlers = handlers;
+        _messageSender = sender;
         this._logger = logger;
-        
     }
     public async Task HandleAsync(string message, long chatId, CancellationToken cancellationTocken)
     {
@@ -28,39 +29,15 @@ public class MessageService : IMessageService
 
         string command = message.Trim().Split(' ', '\n')[0].ToLowerInvariant();
 
-        switch(command)
-            {
-            case "/start":
-                await OnStartAsync(chatId, cancellationTocken);
-                break;
-            case "/help":
-                await OnHelpAsync(chatId, cancellationTocken);
-                break;
-            default:
-                _logger.LogWarning("Unknown command '{Command}' from chatId: {ChatId}", command, chatId);
-                await _telegramBotClient.SendMessage(
-                    chatId: chatId,
-                    text: "Unknown command. Type /help to see available commands.",
-                    parseMode: ParseMode.None,
-                    cancellationToken: cancellationTocken);
-                break;
-        }
-    }
-    #region
-    private Task OnStartAsync(long chatId, CancellationToken cancellationToken) =>
-        _telegramBotClient.SendMessage(
-            chatId: chatId,
-            text: "Hello! I'm your bot 🤖. Type /help to find out what I can do!",
-            parseMode: ParseMode.None,
-            cancellationToken: cancellationToken);
+        var handler = _handlers.FirstOrDefault(h => h.Command == command);
 
-    private Task OnHelpAsync(long chatId, CancellationToken cancellationToken) =>
-        _telegramBotClient.SendMessage(
-            chatId: chatId,
-            text: "**I can help you with the following commands:**\n" +
-                "/start - Start the bot\n" +
-                "/help - Show this help message\n",
-            parseMode: ParseMode.Markdown,
-            cancellationToken: cancellationToken);
-    #endregion
+        if (handler is null)
+        {
+            await _messageSender.SendTextAsync(chatId,
+                "❓ Unknown command. Type /help to see available commands.",
+                cancellationTocken);
+            return;
+        }
+        await handler.HandleAsync(chatId, message, cancellationTocken);
+    }
 }

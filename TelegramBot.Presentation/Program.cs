@@ -19,11 +19,13 @@ builder.ConfigureServices((context, services) =>
 
     services.AddSingleton<IMessageService, MessageService>();
     services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
+    services.AddSingleton<IMessageSender, TelegramMessageSender>();
 });
 
 var app = builder.Build();
 
 var botClient = app.Services.GetRequiredService<ITelegramBotClient>();
+
 var updateHandler = app.Services.GetRequiredService<IUpdateHandler>();
 var cancellationToken = new CancellationTokenSource().Token;
 

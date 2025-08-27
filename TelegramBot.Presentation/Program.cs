@@ -8,6 +8,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramBot.Application.Interfaces;
 using TelegramBot.Infrastructure.Services;
 using TelegramBot.Presentation.Telegram;
+using TelegramBot.Infrastructure.Commands;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -37,6 +38,7 @@ builder.Services.AddHttpClient("tg")
 builder.Services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddSingleton<IMessageSender, TelegramMessageSender>();
+builder.Services.AddSingleton<ICommandHandler, StartCommandHandler>();
 
 // 5) A background service that starts receiving messages and stops gracefully.
 builder.Services.AddHostedService<TelegramPollingHostedService>();

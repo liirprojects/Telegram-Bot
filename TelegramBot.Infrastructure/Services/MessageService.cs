@@ -4,6 +4,8 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using TelegramBot.Application.Localization;
 
 namespace TelegramBot.Infrastructure.Services;
 
@@ -28,14 +30,13 @@ public class MessageService : IMessageService
         }
 
         string command = message.Trim().Split(' ', '\n')[0].ToLowerInvariant();
+        command = command.TrimStart('/');
 
         var handler = _handlers.FirstOrDefault(h => h.Command == command);
 
         if (handler is null)
         {
-            await _messageSender.SendTextAsync(chatId,
-                "❓ Unknown command. Type /help to see available commands.",
-                cancellationTocken);
+            await _messageSender.SendTextAsync(chatId, Texts.Unknown, cancellationTocken);
             return;
         }
         await handler.HandleAsync(chatId, message, cancellationTocken);

@@ -6,6 +6,7 @@ namespace TelegramBot.Infrastructure.Services;
 public abstract class CommandHandler : ICommandHandler
 {
     public abstract string Command { get; }
+    public virtual string Description => string.Empty;
 
     protected readonly IMessageSender _messageSender;
 

@@ -39,6 +39,7 @@ builder.Services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddSingleton<IMessageSender, TelegramMessageSender>();
 builder.Services.AddSingleton<ICommandHandler, StartCommandHandler>();
+builder.Services.AddSingleton<ICommandHandler, HelpCommandHandler>();
 
 // 5) A background service that starts receiving messages and stops gracefully.
 builder.Services.AddHostedService<TelegramPollingHostedService>();

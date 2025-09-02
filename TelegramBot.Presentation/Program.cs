@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
@@ -80,8 +80,6 @@ public sealed class TelegramPollingHostedService : BackgroundService
         var me = await _bot.GetMe(stoppingToken);
         _log.LogInformation("Bot ready: @{Username} (id {Id})", me.Username, me.Id);
 
-
-        // ******* NEW ADDED CODE ******* //////
         var cmds = _handlers.Select(h => new Telegram.Bot.Types.BotCommand
         {
             Command = h.Command,
@@ -89,8 +87,6 @@ public sealed class TelegramPollingHostedService : BackgroundService
         }).ToArray();
 
         await _bot.SetMyCommands(cmds, cancellationToken: stoppingToken);
-
-        // ******* END OF NEW ADDED CODE ******* //////
 
         await Task.Delay(Timeout.Infinite, stoppingToken);
     }

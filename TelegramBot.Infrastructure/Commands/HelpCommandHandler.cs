@@ -7,6 +7,7 @@ namespace TelegramBot.Infrastructure.Commands;
 public class HelpCommandHandler : CommandHandler
 { 
     public override string Command => "help";
+    public override string Description => "Show help";
 
     public HelpCommandHandler(IMessageSender _messageSender) : base(_messageSender) { }
 

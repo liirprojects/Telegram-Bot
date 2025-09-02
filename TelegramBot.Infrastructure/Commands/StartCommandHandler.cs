@@ -9,6 +9,7 @@ namespace TelegramBot.Infrastructure.Commands;
 public class StartCommandHandler : CommandHandler
 {
     public override string Command => "start";
+    public override string Description => "Greet the user";
 
     public StartCommandHandler(IMessageSender _messageSender) : base(_messageSender) { }
 

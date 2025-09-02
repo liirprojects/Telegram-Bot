@@ -4,11 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
-
+using Telegram.Bot.Requests;
 using TelegramBot.Application.Interfaces;
 using TelegramBot.Infrastructure.Services;
 using TelegramBot.Presentation.Telegram;
 using TelegramBot.Infrastructure.Commands;
+
+using System.Linq;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -54,14 +56,15 @@ public sealed class TelegramPollingHostedService : BackgroundService
     private readonly IUpdateHandler _handler;
     private readonly ILogger<TelegramPollingHostedService> _log;
 
-    public TelegramPollingHostedService(
-        ITelegramBotClient bot,
-        IUpdateHandler handler,
-        ILogger<TelegramPollingHostedService> log)
+    private readonly IEnumerable<ICommandHandler> _handlers;
+
+    public TelegramPollingHostedService( ITelegramBotClient bot, IUpdateHandler handler,
+        ILogger<TelegramPollingHostedService> log, IEnumerable<ICommandHandler> handlers)
     {
         _bot = bot;
         _handler = handler;
         _log = log;
+        _handlers = handlers;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -76,6 +79,18 @@ public sealed class TelegramPollingHostedService : BackgroundService
 
         var me = await _bot.GetMe(stoppingToken);
         _log.LogInformation("Bot ready: @{Username} (id {Id})", me.Username, me.Id);
+
+
+        // ******* NEW ADDED CODE ******* //////
+        var cmds = _handlers.Select(h => new Telegram.Bot.Types.BotCommand
+        {
+            Command = h.Command,
+            Description = h.Description
+        }).ToArray();
+
+        await _bot.SetMyCommands(cmds, cancellationToken: stoppingToken);
+
+        // ******* END OF NEW ADDED CODE ******* //////
 
         await Task.Delay(Timeout.Infinite, stoppingToken);
     }

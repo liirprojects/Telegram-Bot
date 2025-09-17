@@ -9,8 +9,9 @@ using TelegramBot.Application.Interfaces;
 using TelegramBot.Infrastructure.Services;
 using TelegramBot.Presentation.Telegram;
 using TelegramBot.Infrastructure.Commands;
-
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 
 var builder = Host.CreateApplicationBuilder(args);
 

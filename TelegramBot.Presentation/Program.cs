@@ -12,6 +12,7 @@ using TelegramBot.Infrastructure.Commands;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
+using TelegramBot.Infrastructure.Persistence;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -43,6 +44,9 @@ builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddSingleton<IMessageSender, TelegramMessageSender>();
 builder.Services.AddSingleton<ICommandHandler, StartCommandHandler>();
 builder.Services.AddSingleton<ICommandHandler, HelpCommandHandler>();
+
+// Added service to create connections to SQL Server
+builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
 // 5) A background service that starts receiving messages and stops gracefully.
 builder.Services.AddHostedService<TelegramPollingHostedService>();

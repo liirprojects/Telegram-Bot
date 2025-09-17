@@ -47,11 +47,24 @@ builder.Services.AddSingleton<ICommandHandler, HelpCommandHandler>();
 
 // Added service to create connections to SQL Server
 builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
+// Check connection on start
+builder.Services.AddSingleton<DbHealthCheck>();
 
 // 5) A background service that starts receiving messages and stops gracefully.
 builder.Services.AddHostedService<TelegramPollingHostedService>();
 
 var app = builder.Build();
+
+
+// Check DB connection on startup
+var hc = app.Services.GetRequiredService<DbHealthCheck>();
+var ok = await hc.CanConnectAsync();
+
+var log = app.Services.GetRequiredService<ILogger<Program>>();
+log.LogInformation(ok ? "DB OK" : "DB FAIL");
+
+
+
 await app.RunAsync();
 
 /// Background service - runs long-polling Telegram and keeps the bot "alive"

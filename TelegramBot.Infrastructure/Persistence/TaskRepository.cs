@@ -17,7 +17,7 @@ public sealed class TaskRepository
         await conn.OpenAsync(ct);
 
         await using var cmd = conn.CreateCommand();
-        cmd.CommandText = "INSERT INTO Tasks dbo.Tasks (UserId, [Text]) VALUES (@u, @t)";
+        cmd.CommandText = "INSERT INTO dbo.Tasks (UserId, [Text]) VALUES (@u, @t)";
 
         // Creating parameter for UserId
         var p1 = cmd.CreateParameter(); p1.ParameterName = "@u";

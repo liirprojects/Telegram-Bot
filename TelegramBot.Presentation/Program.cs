@@ -49,12 +49,13 @@ builder.Services.AddSingleton<ICommandHandler, HelpCommandHandler>();
 builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 // Check connection on start
 builder.Services.AddSingleton<DbHealthCheck>();
+// Create real connection
+builder.Services.AddSingleton<TaskRepository>();
 
 // 5) A background service that starts receiving messages and stops gracefully.
 builder.Services.AddHostedService<TelegramPollingHostedService>();
 
 var app = builder.Build();
-
 
 // Check DB connection on startup
 var hc = app.Services.GetRequiredService<DbHealthCheck>();

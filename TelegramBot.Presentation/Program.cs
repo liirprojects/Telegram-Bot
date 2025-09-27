@@ -44,6 +44,7 @@ builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddSingleton<IMessageSender, TelegramMessageSender>();
 builder.Services.AddSingleton<ICommandHandler, StartCommandHandler>();
 builder.Services.AddSingleton<ICommandHandler, HelpCommandHandler>();
+builder.Services.AddSingleton<ICommandHandler, AddCommandHandler>();
 
 // Added service to create connections to SQL Server
 builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();

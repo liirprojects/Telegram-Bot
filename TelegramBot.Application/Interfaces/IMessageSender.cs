@@ -1,4 +1,5 @@
 ﻿using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 namespace TelegramBot.Application.Interfaces;
 
 public interface IMessageSender
@@ -10,5 +11,11 @@ public interface IMessageSender
     /// <param name="message">The message to send.</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendTextAsync(long chatId, string message, CancellationToken cancellationToken, ParseMode parse = ParseMode.None);
+    Task SendTextAsync(
+        long chatId, 
+        string message,
+        CancellationToken cancellationToken,
+        ParseMode parse = ParseMode.None,
+        ReplyMarkup? replyMarkup = null
+        );
 }
